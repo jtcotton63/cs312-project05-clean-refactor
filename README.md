@@ -6,10 +6,10 @@ It contains the following key differences:
 * There are now two types of objects: problems and solvers. Each problem contains a solver.
 * Each solver implements the Solver interface.
 * Each solver implementation has its own file. 
-** The Default implementation is found in DefaultSolver.cs.
-** The Branch and Bound implementation is found in BranchAndBoundSolver.cs.
-** The Greedy implementation is found in GreedySolver.cs.
-** Your own implementation, which you will have to write for the group project, is found in FancySolver.cs.
+ * The Default implementation is found in DefaultSolver.cs.
+ * The Branch and Bound implementation is found in BranchAndBoundSolver.cs.
+ * The Greedy implementation is found in GreedySolver.cs.
+ * Your own implementation, which you will have to write for the group project, is now called the Fancy Solver. It is found in FancySolver.cs.
 * All the methods that pertain to drawing are now contained in the Form1.cs file (where they should be).
 * A lot of methods with duplicated code have been condensed to use helper methods.
 
