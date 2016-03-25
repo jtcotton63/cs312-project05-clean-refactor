@@ -100,8 +100,10 @@ namespace TSP
             }
 
             // Draw city dots
+            Console.WriteLine("*************CITY COORDS************");
             foreach (City c in CityData.Cities)
             {
+                Console.WriteLine((float)c.X * width + " " + (float)c.Y * height);
                 g.FillEllipse(cityBrushStyle, (float)c.X * width, (float)c.Y * height, CITY_ICON_SIZE, CITY_ICON_SIZE);
             }
         }
@@ -296,8 +298,8 @@ namespace TSP
             HardMode.Modes mode = getMode();
 
             CityData = new Problem(seed, problemSize, timeLimit, mode);
-            //CityData.GenerateProblem(problemSize, mode, timeLimit);
 
+            // Set the values of the text boxes in the GUI
             tbSeed.Text = seed.ToString();
             tbProblemSize.Text = problemSize.ToString();
             tbTimeLimit.Text = timeLimit.ToString();

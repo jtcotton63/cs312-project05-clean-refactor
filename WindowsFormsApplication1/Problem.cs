@@ -43,6 +43,13 @@ namespace TSP
         {
             this._seed = seed;
             this._rnd = new Random(seed);
+
+            // CRITICAL - TO MAKE THE POINTS LOOK LIKE THE
+            // POINTS IN THE OLD VERSION FOR THE SAME SEEDS
+            // DO NOT REMOVE THIS FOR LOOP
+            for (int i = 0; i < 50; i++)
+                _rnd.NextDouble();
+
             this._size = problemSize;
             this._mode = mode;
             this._timeLimit = timeInSeconds * 1000;                        // timer wants timeLimit in milliseconds
