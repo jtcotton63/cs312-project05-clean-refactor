@@ -18,6 +18,7 @@ namespace TSP
         // group project (FancySolver.cs).
         // If you are wondering where these are used, see the handleToolStripMenuClick method
         private enum RunType { DEFAULT, BRANCH_AND_BOUND, GREEDY, FANCY }
+        private const string STRING_PLACEHOLDER = " --";
 
         public mainform()
         {
@@ -100,12 +101,8 @@ namespace TSP
             }
 
             // Draw city dots
-            Console.WriteLine("*************CITY COORDS************");
             foreach (City c in CityData.Cities)
-            {
-                Console.WriteLine((float)c.X * width + " " + (float)c.Y * height);
                 g.FillEllipse(cityBrushStyle, (float)c.X * width, (float)c.Y * height, CITY_ICON_SIZE, CITY_ICON_SIZE);
-            }
         }
 
         /*
@@ -216,38 +213,39 @@ namespace TSP
 
         private void handleToolStripMenuClick(RunType runType)
         {
-            string[] results;
+            Problem result;
             this.reset();
 
             tbElapsedTime.Text = " Running...";
             tbCostOfTour.Text = " Running...";
+            tbNumSolutions.Text = STRING_PLACEHOLDER;
             Refresh();
 
             Solver solver;
             if (runType == RunType.BRANCH_AND_BOUND)
             {
                 solver = new BranchAndBoundSolver(CityData);
-                results = solver.solve();
+                result = solver.solve();
             }
             else if (runType == RunType.GREEDY)
             {
                 solver = new GreedySolver(CityData);
-                results = solver.solve();
+                result = solver.solve();
             }
             else if (runType == RunType.FANCY)
             {
                 solver = new FancySolver(CityData);
-                results = solver.solve();
+                result = solver.solve();
             }
             else  // runType == RunType.DEFAULT
             {
                 solver = new DefaultSolver(CityData);
-                results = solver.solve();
+                result = solver.solve();
             }
 
-            tbCostOfTour.Text = results[Problem.COST_POSITION];
-            tbElapsedTime.Text = results[Problem.TIME_POSITION];
-            tbNumSolutions.Text = results[Problem.COUNT_POSITION];
+            tbCostOfTour.Text = result.BSSF.costOfRoute().ToString();
+            tbElapsedTime.Text = result.TimeElasped.ToString();
+            tbNumSolutions.Text = result.Solutions.ToString();
             Invalidate();                          // force a refresh.
         }
 
@@ -274,8 +272,8 @@ namespace TSP
         private int getProblemSize()
         {
             int size;
-            return int.TryParse(this.tbProblemSize.Text, out size) ? int.Parse(this.tbProblemSize.Text) 
-                : Problem.DEFAULT_PROBLEM_SIZE;
+            return int.TryParse(this.tbProblemSize.Text, out size) ?
+                int.Parse(this.tbProblemSize.Text) : Problem.DEFAULT_PROBLEM_SIZE;
         }        
 
         // If the tbTimeLimit box doesn't contain a valid integer,
@@ -283,8 +281,8 @@ namespace TSP
         private int getTimeLimit()
         {
             int timeLimit;
-            return int.TryParse(this.tbTimeLimit.Text, out timeLimit) ? int.Parse(this.tbTimeLimit.Text) 
-                : Problem.DEFAULT_TIME_LIMIT;
+            return int.TryParse(this.tbTimeLimit.Text, out timeLimit) ?
+                int.Parse(this.tbTimeLimit.Text) : Problem.DEFAULT_TIME_LIMIT;
         }
 
         // Calls the reset(int, int, int) function using the current state values
@@ -303,9 +301,9 @@ namespace TSP
             tbSeed.Text = seed.ToString();
             tbProblemSize.Text = problemSize.ToString();
             tbTimeLimit.Text = timeLimit.ToString();
-            tbCostOfTour.Text = " --";
-            tbElapsedTime.Text = " --";
-            tbNumSolutions.Text = " --";              // re-blanking the text boxes that may have been modified by a solver
+            tbCostOfTour.Text = STRING_PLACEHOLDER;
+            tbElapsedTime.Text = STRING_PLACEHOLDER;
+            tbNumSolutions.Text = STRING_PLACEHOLDER;              // re-blanking the text boxes that may have been modified by a solver
             this.Invalidate();
         }
     }

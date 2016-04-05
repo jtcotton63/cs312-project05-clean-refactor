@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 
 namespace TSP
 {
@@ -19,8 +18,9 @@ namespace TSP
         private Random _rnd;
 
         private City[] _cities;
-        private ArrayList _route;
         private TSPSolution _bssf;
+        private TimeSpan timeElasped;
+        private int solutions;
 
         // These three constants are used for convenience/clarity in populating and 
         // accessing the results array that is passed back to the calling form
@@ -68,12 +68,6 @@ namespace TSP
             get { return _cities; }
         }
 
-        public ArrayList Route
-        {
-            get { return _route; }
-            set { _route = value; }
-        }
-
         public int Seed
         {
             get { return _seed; }
@@ -84,11 +78,22 @@ namespace TSP
             get { return _size; }
         }
 
-        // Reset the problem instance
+        public TimeSpan TimeElasped
+        {
+            get { return timeElasped; }
+            set { timeElasped = value; }
+        }
+
+        public int Solutions
+        {
+            get { return solutions; }
+            set { solutions = value; }
+        }
+
+        // Generates a new set of cities using the new random seed
         private void resetData()
         {
             _cities = new City[_size];
-            _route = new ArrayList(_size);
             _bssf = null;
 
             if (_mode == HardMode.Modes.Easy)
@@ -102,22 +107,13 @@ namespace TSP
                     _cities[i] = new City(_rnd.NextDouble(), _rnd.NextDouble(), _rnd.NextDouble() * City.MAX_ELEVATION);
             }
 
-            HardMode mm = new HardMode(this._mode, this._rnd, _cities);
+            HardMode mm = new HardMode(this._mode, this._rnd, _cities); 
             if (_mode == HardMode.Modes.Hard)
             {
                 int edgesToRemove = (int)(_size * FRACTION_OF_PATHS_TO_REMOVE);
                 mm.removePaths(edgesToRemove);
             }
             City.setModeManager(mm);
-        }
-
-        //  Return the cost of the best solution so far. 
-        public double costOfBssf ()
-        {
-            if (_bssf != null)
-                return (_bssf.costOfRoute());
-            else
-                return -1D; 
         }
     }
 }

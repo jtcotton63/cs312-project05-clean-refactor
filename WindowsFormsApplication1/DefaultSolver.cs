@@ -15,8 +15,7 @@ namespace TSP
 
         // This is the entry point for the default solver
         // which just finds a valid random tour 
-        // <returns>The random valid tour</returns>
-        public string[] solve()
+        public Problem solve()
         {
             int i, swap, temp, count = 0;
             City[] cities = cityData.Cities;
@@ -47,14 +46,15 @@ namespace TSP
                 }
                 cityData.BSSF = new TSPSolution(route);
                 count++;
-            } while (cityData.costOfBssf() == double.PositiveInfinity);                // until a valid route is found
+            } while (cityData.BSSF.costOfRoute() == double.PositiveInfinity);                // until a valid route is found
             timer.Stop();
 
-            results[Problem.COST_POSITION] = cityData.costOfBssf().ToString();                          // load results array
-            results[Problem.TIME_POSITION] = timer.Elapsed.ToString();
-            results[Problem.COUNT_POSITION] = count.ToString();
+            // Set values that will be pushed to the screen
+            // Please note that cityData.BSSF is already set above
+            cityData.TimeElasped = timer.Elapsed;
+            cityData.Solutions = count;
 
-            return results;
+            return cityData;
         }
     }
 }
