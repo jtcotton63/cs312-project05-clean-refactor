@@ -6,11 +6,11 @@ namespace TSP
 {
     class DefaultSolver : Solver
     {
-        Problem cityData;
+        Problem _cityData;
 
         public DefaultSolver(Problem cityData)
         {
-            this.cityData = cityData;
+            this._cityData = cityData;
         }
 
         // This is the entry point for the default solver
@@ -18,7 +18,7 @@ namespace TSP
         public Problem solve()
         {
             int i, swap, temp, count = 0;
-            City[] cities = cityData.Cities;
+            City[] cities = _cityData.Cities;
             string[] results = new string[3];
             int[] perm = new int[cities.Length];
             List<City> route = new List<City>();
@@ -44,17 +44,17 @@ namespace TSP
                 {
                     route.Add(cities[perm[i]]);
                 }
-                cityData.BSSF = new TSPSolution(route);
+                _cityData.BSSF = new TSPSolution(route);
                 count++;
-            } while (cityData.BSSF.costOfRoute() == double.PositiveInfinity);                // until a valid route is found
+            } while (_cityData.BSSF.costOfRoute() == double.PositiveInfinity);                // until a valid route is found
             timer.Stop();
 
             // Set values that will be pushed to the screen
             // Please note that cityData.BSSF is already set above
-            cityData.TimeElasped = timer.Elapsed;
-            cityData.Solutions = count;
+            _cityData.TimeElasped = timer.Elapsed;
+            _cityData.Solutions = count;
 
-            return cityData;
+            return _cityData;
         }
     }
 }

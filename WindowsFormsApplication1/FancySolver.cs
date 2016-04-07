@@ -11,11 +11,11 @@ namespace TSP
      */
     class FancySolver : Solver
     {
-        Problem cityData;
+        Problem _cityData;
 
         public FancySolver(Problem cityData)
         {
-            this.cityData = cityData;
+            this._cityData = cityData;
         }
 
         // finds the best tour possible using your own fancy TSP solving method
@@ -28,13 +28,14 @@ namespace TSP
 
             // Before returning an instance of type Problem,
             // set the following values so that text boxes 
-            // on the user interface can be filled:
+            // on the user interface can be filled.
+            // For more info, see the BranchAndBoundSolver.solve() method
             //
             // cityData.BSSF = currentBSSF;
-            // cityData.TimeElasped = yourTimer.
+            // cityData.TimeElasped = yourTimer.Elapsed;
             // cityData.Solutions = numSolutionsThatYouHaveCalculated;
-            //
-            // return cityData;
+
+            return _cityData;
         }
     }
 }

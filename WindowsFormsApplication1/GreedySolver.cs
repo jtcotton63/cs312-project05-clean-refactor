@@ -11,11 +11,11 @@ namespace TSP
      */
     class GreedySolver : Solver
     {
-        Problem cityData;
+        Problem _cityData;
 
         public GreedySolver(Problem cityData)
         {
-            this.cityData = cityData;
+            this._cityData = cityData;
         }
 
         // finds the greedy tour starting from each city and keeps the best (valid) one
@@ -28,13 +28,14 @@ namespace TSP
 
             // Before returning an instance of type Problem,
             // set the following values so that text boxes 
-            // on the user interface can be filled:
+            // on the user interface can be filled.
+            // For more info, see the BranchAndBoundSolver.solve() method
             //
             // cityData.BSSF = currentBSSF;
-            // cityData.TimeElasped = yourTimer.
+            // cityData.TimeElasped = yourTimer.Elapsed;
             // cityData.Solutions = numSolutionsThatYouHaveCalculated;
-            //
-            // return cityData;
+            
+            return _cityData;
         }
     }
 }

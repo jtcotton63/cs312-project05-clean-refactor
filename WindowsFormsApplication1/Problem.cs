@@ -19,8 +19,8 @@ namespace TSP
 
         private City[] _cities;
         private TSPSolution _bssf;
-        private TimeSpan timeElasped;
-        private int solutions;
+        private TimeSpan _timeElasped;
+        private int _solutions;
 
         // These three constants are used for convenience/clarity in populating and 
         // accessing the results array that is passed back to the calling form
@@ -80,14 +80,14 @@ namespace TSP
 
         public TimeSpan TimeElasped
         {
-            get { return timeElasped; }
-            set { timeElasped = value; }
+            get { return _timeElasped; }
+            set { _timeElasped = value; }
         }
 
         public int Solutions
         {
-            get { return solutions; }
-            set { solutions = value; }
+            get { return _solutions; }
+            set { _solutions = value; }
         }
 
         // Generates a new set of cities using the new random seed

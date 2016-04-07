@@ -76,14 +76,14 @@ namespace TSP
         // This is an optimization -- we cache one object to avoid repeated memory allocation & deallocation
         // It should only be used in isRemoved and should never be returned to user code, since its internal 
         // values will keep changing.
-        static Edge tempEdge = new Edge();
+        static Edge _tempEdge = new Edge();
 
         // this method is not thread-safe, i.e., it should not be called from two separate threads
         public bool isEdgeRemoved(City city1, City city2)
         {
-            tempEdge.city1 = city1;
-            tempEdge.city2 = city2;
-            return _removedEdges.Contains(tempEdge);
+            _tempEdge.city1 = city1;
+            _tempEdge.city2 = city2;
+            return _removedEdges.Contains(_tempEdge);
         }
 
         // Shuffles cities to generate a temporary reference path.  The reference path

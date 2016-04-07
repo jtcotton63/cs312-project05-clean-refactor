@@ -6,7 +6,7 @@ namespace TSP
 {
     public partial class mainform : Form
     {
-        private Problem CityData;
+        private Problem _cityData;
 
         // Used to define the different kind of ways that the TSP can be solved
         // DEFAULT is used to indicate that the given problem should be solved
@@ -24,8 +24,8 @@ namespace TSP
         {
             InitializeComponent();
 
-            CityData = new Problem();
-            this.tbSeed.Text = CityData.Seed.ToString();
+            _cityData = new Problem();
+            this.tbSeed.Text = _cityData.Seed.ToString();
         }
 
         /*
@@ -66,21 +66,21 @@ namespace TSP
             Font labelFont = new Font("Arial", 10);
 
             // Draw lines
-            if (CityData.BSSF != null)
+            if (_cityData.BSSF != null)
             {
                 // make a list of points. 
-                Point[] ps = new Point[CityData.BSSF.Route.Count];
+                Point[] ps = new Point[_cityData.BSSF.Route.Count];
                 int index = 0;
-                foreach (City c in CityData.BSSF.Route)
+                foreach (City c in _cityData.BSSF.Route)
                 {
-                    if (index < CityData.BSSF.Route.Count - 1)
-                        g.DrawString(" " + index + "(" + c.costToGetTo(CityData.BSSF.Route[index + 1] as City) + ")",
+                    if (index < _cityData.BSSF.Route.Count - 1)
+                        g.DrawString(" " + index + "(" + c.costToGetTo(_cityData.BSSF.Route[index + 1] as City) + ")",
                             labelFont,
                             cityBrushStartStyle,
                             new PointF((float)c.X * width + 3F,
                             (float)c.Y * height));
                     else
-                        g.DrawString(" " + index + "(" + c.costToGetTo(CityData.BSSF.Route[0] as City) + ")",
+                        g.DrawString(" " + index + "(" + c.costToGetTo(_cityData.BSSF.Route[0] as City) + ")",
                             labelFont,
                             cityBrushStartStyle,
                             new PointF((float)c.X * width + 3F,
@@ -92,8 +92,8 @@ namespace TSP
                 if (ps.Length > 0)
                 {
                     g.DrawLines(routePenStyle, ps);
-                    g.FillEllipse(cityBrushStartStyle, (float)CityData.Cities[0].X * width - 1,
-                        (float)CityData.Cities[0].Y * height - 1, CITY_ICON_SIZE + 2, CITY_ICON_SIZE + 2);
+                    g.FillEllipse(cityBrushStartStyle, (float)_cityData.Cities[0].X * width - 1,
+                        (float)_cityData.Cities[0].Y * height - 1, CITY_ICON_SIZE + 2, CITY_ICON_SIZE + 2);
                 }
 
                 // draw the last line. 
@@ -101,7 +101,7 @@ namespace TSP
             }
 
             // Draw city dots
-            foreach (City c in CityData.Cities)
+            foreach (City c in _cityData.Cities)
                 g.FillEllipse(cityBrushStyle, (float)c.X * width, (float)c.Y * height, CITY_ICON_SIZE, CITY_ICON_SIZE);
         }
 
@@ -211,6 +211,14 @@ namespace TSP
             handleToolStripMenuClick(RunType.FANCY);
         }
 
+        // Used to define the different kind of ways that the TSP can be solved
+        // DEFAULT is used to indicate that the given problem should be solved
+        // using the default implementation (DefaultSolver.cs).
+        // BRANCH_AND_BOUND is used to indicate that the given problem should be solved
+        // using the branch and bound method that you write (BranchAndBoundSolver.cs).
+        // GREEDY --> The greedy method you will have to write for the group project (GreedySolver.cs)
+        // FANCY --> Your own implementation that you will have to write for the 
+        // group project (FancySolver.cs).
         private void handleToolStripMenuClick(RunType runType)
         {
             Problem result;
@@ -224,22 +232,22 @@ namespace TSP
             Solver solver;
             if (runType == RunType.BRANCH_AND_BOUND)
             {
-                solver = new BranchAndBoundSolver(CityData);
+                solver = new BranchAndBoundSolver(_cityData);
                 result = solver.solve();
             }
             else if (runType == RunType.GREEDY)
             {
-                solver = new GreedySolver(CityData);
+                solver = new GreedySolver(_cityData);
                 result = solver.solve();
             }
             else if (runType == RunType.FANCY)
             {
-                solver = new FancySolver(CityData);
+                solver = new FancySolver(_cityData);
                 result = solver.solve();
             }
             else  // runType == RunType.DEFAULT
             {
-                solver = new DefaultSolver(CityData);
+                solver = new DefaultSolver(_cityData);
                 result = solver.solve();
             }
 
@@ -295,7 +303,7 @@ namespace TSP
             this.toolStrip1.Focus();  // Not sure why this is here; leftover from previous code
             HardMode.Modes mode = getMode();
 
-            CityData = new Problem(seed, problemSize, timeLimit, mode);
+            _cityData = new Problem(seed, problemSize, timeLimit, mode);
 
             // Set the values of the text boxes in the GUI
             tbSeed.Text = seed.ToString();
